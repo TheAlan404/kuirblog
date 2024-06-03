@@ -1,5 +1,5 @@
 export { default as ArticleCard } from "@/components/cards/ArticleCard";
-export { default as NavLink } from "@/components/ui/NavLink";
+export { default as NavButton } from "@/components/ui/NavButton";
 export { default as RouterTransition } from "@/components/ui/RouterTransition";
 export { default as ThemeToggle } from "@/components/ui/ThemeToggle";
 export { default as YouTubeEmbed } from "src/components/ui/YouTubeEmbed";

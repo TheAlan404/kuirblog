@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import type { GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 
-import { ActionIcon, Grid, SimpleGrid, Stack, TextInput } from "@mantine/core";
+import { ActionIcon, Grid, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 
 import { IconSearch, IconX } from "@tabler/icons-react";
@@ -38,15 +38,18 @@ function Blog({ posts }: { posts: PostMeta[] }) {
 
 	return (
 		<>
-			<NextSeo title="Blog Posts" description="List of blog posts" />
+			<NextSeo title="Blog Yazıları" description="Blog yazılarının listesi" />
 			<Stack>
 				<TextInput
-					placeholder="Search..."
+					placeholder="Ara..."
 					value={value}
 					leftSection={<IconSearch />}
 					rightSection={
 						debounced && (
-							<ActionIcon onClick={clearFilter}>
+							<ActionIcon
+								onClick={clearFilter}
+								variant="light"
+							>
 								<IconX />
 							</ActionIcon>
 						)
@@ -54,19 +57,22 @@ function Blog({ posts }: { posts: PostMeta[] }) {
 					onChange={(event) => setValue(event.currentTarget.value)}
 				/>
 
-				<SimpleGrid>
+				<SimpleGrid cols={{ sm: 3, base: 1 }}>
 					{filtered.map((post) => (
 						<ArticleCard
 							key={post.slug}
-							link={`/posts/${post.slug}`}
-							title={post.title}
-							description={post.excerpt}
-							author={post.author}
-							image={post.image}
-							category={post.category}
+							{...post}
 						/>
 					))}
 				</SimpleGrid>
+
+				{!filtered.length && (
+					<Stack>
+						<Text>
+							whoops hiçbişi bulamadık :(
+						</Text>
+					</Stack>
+				)}
 			</Stack>
 		</>
 	);

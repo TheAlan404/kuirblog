@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "Lexend-VariableFont";
+    src:
+        local("Lexend-VariableFont"),
+        url("/Lexend-VariableFont_wght.ttf");
+}
+
+.articleCard {
+    transition: transform 0.1s;
+}
+
+.articleCard:hover {
+    transform: scale(105%);
+}
+
+.articleCard:active {
+    transform: scale(95%);
+}

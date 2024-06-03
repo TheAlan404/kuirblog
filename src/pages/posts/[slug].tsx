@@ -5,7 +5,7 @@ import type { GetStaticPaths, GetStaticProps } from "next";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import { NextSeo } from "next-seo";
-import Image from "next/image";
+import NextImage from "next/image";
 import Link from "next/link";
 
 import {
@@ -13,8 +13,12 @@ import {
 	Anchor,
 	Code,
 	Group,
+	Stack,
 	Table,
 	Title,
+	Image,
+	Box,
+	Tooltip,
 } from "@mantine/core";
 
 import { IconArrowNarrowLeft } from "@tabler/icons-react";
@@ -51,18 +55,37 @@ export default function PostPage({ post }: { post: MDXPost }) {
 	return (
 		<>
 			<NextSeo title={post.meta.title} description={post.meta.excerpt} />
-			<Group>
-				<Link href={Routes.blog.href} passHref>
-					<ActionIcon component="a" aria-label="back to blog list">
-						<IconArrowNarrowLeft />
-					</ActionIcon>
-				</Link>
-				<Title order={1}>{post.meta.title}</Title>
-			</Group>
 
-			<MDXRemote {...post.source} components={components} />
+			<Stack>
+				{post.meta.image && (
+					<Image
+						style={{ flex: "unset" }}
+						h="40vh"
+						w="100%"
+						fit="cover"
+						radius="md"
+						src={post.meta.image}
+						alt={`${post.meta.title} image`}
+					/>
+				)}
 
-			<GiscusComments />
+				<Group align="center">
+					<Tooltip label="Blog'a geri dön">
+						<ActionIcon
+							variant="light"
+							component={Link}
+							href={Routes.blog.href}
+						>
+							<IconArrowNarrowLeft />
+						</ActionIcon>
+					</Tooltip>
+					<Title order={1}>{post.meta.title}</Title>
+				</Group>
+
+				<MDXRemote {...post.source} components={components} />
+
+				{/* <GiscusComments /> */}
+			</Stack>
 		</>
 	);
 }

@@ -4,28 +4,27 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import {
-  NavigationProgress,
-  resetNavigationProgress,
-  startNavigationProgress,
+	NavigationProgress,
+	nprogress,
 } from "@mantine/nprogress";
 
 export default function RouterTransition() {
-  const router = useRouter();
+	const router = useRouter();
 
-  useEffect(() => {
-    const handleStart = (url: string) =>
-      url !== router.asPath && startNavigationProgress();
+	useEffect(() => {
+		const handleStart = (url: string) =>
+			url !== router.asPath && nprogress.start();
 
-    router.events.on("routeChangeStart", handleStart);
-    router.events.on("routeChangeComplete", resetNavigationProgress);
-    router.events.on("routeChangeError", resetNavigationProgress);
+		router.events.on("routeChangeStart", handleStart);
+		router.events.on("routeChangeComplete", nprogress.complete);
+		router.events.on("routeChangeError", nprogress.reset);
 
-    return () => {
-      router.events.off("routeChangeStart", handleStart);
-      router.events.off("routeChangeComplete", resetNavigationProgress);
-      router.events.off("routeChangeError", resetNavigationProgress);
-    };
-  }, [router.asPath, router.events]);
+		return () => {
+			router.events.off("routeChangeStart", handleStart);
+			router.events.off("routeChangeComplete", nprogress.complete);
+			router.events.off("routeChangeError", nprogress.reset);
+		};
+	}, [router.asPath, router.events]);
 
-  return <NavigationProgress />;
+	return <NavigationProgress />;
 }

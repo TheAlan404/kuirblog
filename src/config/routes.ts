@@ -2,12 +2,8 @@ import { Route } from "src/config/types";
 
 const routes: Record<string, Route> = {
   home: {
-    name: "Home",
+    name: "Anasayfa",
     href: "/",
-  },
-  projects: {
-    name: "Projects",
-    href: "/projects",
   },
   blog: {
     name: "Blog",
@@ -18,7 +14,7 @@ const routes: Record<string, Route> = {
     href: "/posts/[slug]",
   },
   contact: {
-    name: "Contact",
+    name: "İletişim",
     href: "/contact",
   },
 };

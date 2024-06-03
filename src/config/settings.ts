@@ -1,9 +1,8 @@
 import Routes from "src/config/routes";
 import { Settings } from "src/config/types";
 
-/* Defining the settings for the site. */
 const settings: Settings = {
-  applicationName: "Blog Template",
+  applicationName: ".kuir",
   theme: {
     primaryColor: "blue",
   },
@@ -14,11 +13,6 @@ const settings: Settings = {
       link: Routes.home.href,
       label: Routes.home.name,
       activeLinks: [Routes.home.href],
-    },
-    {
-      link: Routes.projects.href,
-      label: Routes.projects.name,
-      activeLinks: [Routes.projects.href],
     },
     {
       link: Routes.blog.href,
@@ -38,7 +32,7 @@ const settings: Settings = {
     categoryId: "DIC_kwDOHv0e6c4CQqsR",
     mapping: "pathname",
     loading: "lazy",
-    lang: "en",
+    lang: "tr",
   },
 };
 

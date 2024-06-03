@@ -7,8 +7,8 @@ import { Title } from "@mantine/core";
 function Home() {
   return (
     <>
-      <NextSeo title="Home" description="Home page of blog" />
-      <Title order={2}>Home</Title>
+      <NextSeo title="Anasayfa" description=".kuir blogunun ana sayfası" />
+      <Title order={2}>.kuir Blog</Title>
     </>
   );
 }

@@ -7,8 +7,8 @@ import { Title } from "@mantine/core";
 function Contact() {
   return (
     <>
-      <NextSeo title="Contact" description="Contact me" />
-      <Title order={2}>Contact</Title>
+      <NextSeo title="İletişim" description="Bizimle iletişime geç" />
+      <Title order={2}>İletişim</Title>
     </>
   );
 }
