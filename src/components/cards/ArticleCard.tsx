@@ -10,7 +10,7 @@ import {
 	Image,
 	Stack,
 } from "@mantine/core";
-import { PostMeta } from "@/helpers/blog";
+import { PostMeta } from "@/helpers/types";
 
 export default function ArticleCard({
 	image,
@@ -40,18 +40,21 @@ export default function ArticleCard({
 						style={{ flex: "unset" }}
 						alt={`${title} cover image`}
 						src={image}
+						h="7em"
 					/>
 				</Card.Section>
 			)}
 
-			<Stack pt="md" gap="sm">
-				<Text fw="bolder">
-					{title}
-				</Text>
+			<Stack justify="space-between" h="100%" pt="md" gap="sm">
+				<Stack>
+					<Text fw="bolder">
+						{title}
+					</Text>
 
-				<Text size="sm" c="dimmed" lineClamp={4}>
-					{excerpt}
-				</Text>
+					<Text size="sm" c="dimmed" lineClamp={4}>
+						{excerpt}
+					</Text>
+				</Stack>
 
 				<Group justify="space-between">
 					<Group>

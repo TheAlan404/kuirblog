@@ -1,4 +1,4 @@
-import { NextSeo } from "next-seo";
+import { DefaultSeo, NextSeo } from "next-seo";
 import { AppProps } from "next/app";
 
 import {
@@ -6,6 +6,7 @@ import {
 	colorsTuple,
 	createTheme,
 	MantineProvider,
+	Space,
 } from "@mantine/core";
 
 import '@mantine/core/styles.css';
@@ -19,7 +20,7 @@ import { Notifications } from "@mantine/notifications";
 import { RouterTransition } from "src/components/index";
 
 import settings from "src/config/settings";
-import AppBase from "../layouts";
+import AppBase from "../layouts/AppBase";
 
 const theme = createTheme({
 	fontFamily: "Lexend-VariableFont",
@@ -42,12 +43,20 @@ export default function App({ Component, pageProps }: AppProps) {
 			<NextSeo
 				titleTemplate={`%s | ${settings.applicationName}`}
 			/>
+			<DefaultSeo
+				openGraph={{
+					type: 'website',
+					locale: 'tr_TR',
+					siteName: '.kuir Blog',
+				}}
+			/>
 			<MantineProvider theme={theme} defaultColorScheme="dark">
 				<Notifications />
 				<RouterTransition />
 				<ModalsProvider>
 					<AppBase>
 						<Component {...pageProps} />
+						<Space h="50vh" />
 					</AppBase>
 				</ModalsProvider>
 			</MantineProvider>

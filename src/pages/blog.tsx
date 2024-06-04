@@ -1,16 +1,12 @@
 import { useMemo, useState } from "react";
-
-import type { GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
-
-import { ActionIcon, Grid, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Grid, SimpleGrid, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
-
 import { IconSearch, IconX } from "@tabler/icons-react";
-
 import { ArticleCard } from "src/components/index";
-
-import { PostMeta, getAllPosts } from "src/helpers/blog";
+import { getAllPosts } from "src/helpers/blog";
+import { PostMeta } from "@/helpers/types";
 
 function Blog({ posts }: { posts: PostMeta[] }) {
 	const [value, setValue] = useState("");
@@ -40,6 +36,16 @@ function Blog({ posts }: { posts: PostMeta[] }) {
 		<>
 			<NextSeo title="Blog Yazıları" description="Blog yazılarının listesi" />
 			<Stack>
+				<Stack ta="center" align="center">
+					<Title>
+						.kuir Blog
+					</Title>
+
+					<Text>
+						miyav
+					</Text>
+				</Stack>
+
 				<TextInput
 					placeholder="Ara..."
 					value={value}

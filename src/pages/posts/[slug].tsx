@@ -1,13 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
-
 import type { GetStaticPaths, GetStaticProps } from "next";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import { NextSeo } from "next-seo";
-import NextImage from "next/image";
 import Link from "next/link";
-
 import {
 	ActionIcon,
 	Anchor,
@@ -19,18 +16,15 @@ import {
 	Image,
 	Box,
 	Tooltip,
+	ImageProps,
 } from "@mantine/core";
-
 import { IconArrowNarrowLeft } from "@tabler/icons-react";
-
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
-
 import { GiscusComments, YouTubeEmbed } from "src/components/index";
-
-import { PostMeta, getPostFromSlug, getSlugs } from "src/helpers/blog";
-
+import { getPostFromSlug, getSlugs } from "src/helpers/blog";
 import Routes from "src/config/routes";
+import { PostMeta } from "@/helpers/types";
 
 interface MDXPost {
 	source: MDXRemoteSerializeResult<Record<string, unknown>>;
@@ -38,7 +32,12 @@ interface MDXPost {
 }
 
 const components = {
-	Image,
+	img: (props: ImageProps) => (
+		<Image
+			{...props}
+			radius="md"
+		/>
+	),
 	YouTube: YouTubeEmbed,
 	ReactTable: Table,
 	code: (props: any) => <Code {...props} />,
@@ -54,7 +53,26 @@ const components = {
 export default function PostPage({ post }: { post: MDXPost }) {
 	return (
 		<>
-			<NextSeo title={post.meta.title} description={post.meta.excerpt} />
+			<NextSeo
+				title={post.meta.title}
+				description={post.meta.excerpt}
+				openGraph={{
+					title: post.meta.title,
+					description: post.meta.excerpt,
+					type: "article",
+					article: {
+						tags: post.meta.tags,
+						authors: [post.meta.author.name],
+						publishedTime: post.meta.date,
+					},
+					locale: "tr_TR",
+					images: post.meta.image ? [
+						{
+							url: post.meta.image,
+						}
+					] : undefined,
+				}}
+			/>
 
 			<Stack>
 				{post.meta.image && (
@@ -69,7 +87,7 @@ export default function PostPage({ post }: { post: MDXPost }) {
 					/>
 				)}
 
-				<Group align="center">
+				<Group align="center" wrap="nowrap">
 					<Tooltip label="Blog'a geri dön">
 						<ActionIcon
 							variant="light"
@@ -97,7 +115,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		mdxOptions: {
 			rehypePlugins: [
 				rehypeSlug,
-				[rehypeAutolinkHeadings, { behavior: "wrap" }],
+				//[rehypeAutolinkHeadings, { behavior: "wrap" }],
 			],
 		},
 	});

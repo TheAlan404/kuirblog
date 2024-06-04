@@ -1,10 +1,11 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { AppShell, Burger, Container, Group, NavLink } from "@mantine/core";
+import { ActionIcon, AppShell, Avatar, Burger, Button, Container, Group, NavLink, Tooltip } from "@mantine/core";
 import settings from "@/config/settings";
 import { useDisclosure } from "@mantine/hooks";
 import { NavButton, ThemeToggle } from "../components";
 import Link from "next/link";
+import routes from "@/config/routes";
 
 export default function AppBase({ children }: { children: ReactNode }) {
 	const [opened, { close, toggle }] = useDisclosure(false);
@@ -30,21 +31,53 @@ export default function AppBase({ children }: { children: ReactNode }) {
 		>
 			<AppShell.Header>
 				<Group justify="space-between" align="center" h="100%" px="sm">
-					<Burger
-						opened={opened}
-						onClick={toggle}
-						hiddenFrom="sm"
-						size="sm"
-					/>
-					<Group visibleFrom="sm">
-						{settings.headerLinks.map((link) => (
-							<NavButton
-								key={link.label}
-								{...link}
-							/>
-						))}
-					</Group>
 					<Group>
+						<Burger
+							opened={opened}
+							onClick={toggle}
+							hiddenFrom="sm"
+							size="sm"
+						/>
+
+						<Button
+							variant="transparent"
+							leftSection={(
+								<Avatar
+									size="sm"
+									src="/images/mascot.png"
+								/>
+							)}
+							component={Link}
+							href={routes.home.href}
+						>
+							{settings.applicationName}
+						</Button>
+
+						<Group visibleFrom="sm">
+							{settings.headerLinks.map((link) => (
+								<NavButton
+									key={link.label}
+									{...link}
+								/>
+							))}
+						</Group>
+					</Group>
+
+					<Group>
+						<Group>
+							{settings.socialLinks?.map(({ label, link, icon, color }, i) => (
+								<Tooltip key={i} label={label}>
+									<ActionIcon
+										variant="light"
+										color={color}
+										component="a"
+										href={link}
+									>
+										{icon}
+									</ActionIcon>
+								</Tooltip>
+							))}
+						</Group>
 						<ThemeToggle />
 					</Group>
 				</Group>

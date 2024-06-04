@@ -19,6 +19,7 @@ export default function NavButton({
 			component={Link}
 			href={link}
 			leftSection={icon}
+			color={isActive ? "yellow" : undefined}
 		>
 			{label}
 		</Button>
