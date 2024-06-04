@@ -5,6 +5,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
+import NextImage from "next/image";
 import {
 	ActionIcon,
 	Anchor,
@@ -17,6 +18,8 @@ import {
 	Box,
 	Tooltip,
 	ImageProps,
+	Avatar,
+	Text,
 } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons-react";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -93,11 +96,39 @@ export default function PostPage({ post }: { post: MDXPost }) {
 							variant="light"
 							component={Link}
 							href={Routes.blog.href}
+							visibleFrom="sm"
 						>
 							<IconArrowNarrowLeft />
 						</ActionIcon>
 					</Tooltip>
-					<Title order={1}>{post.meta.title}</Title>
+					<Title order={2}>{post.meta.title}</Title>
+				</Group>
+
+				<Group justify="space-between" pb="xl">
+					<Stack gap={0}>
+						<Text c="dimmed">Yazar:</Text>
+						<Group>
+							<Avatar size="sm" radius="xl">
+								<Image
+									component={NextImage}
+									alt={`${post.meta.author.name} photo`}
+									src={post.meta.author.image}
+									layout="fill"
+									objectFit="cover"
+									sizes="10vw"
+								/>
+							</Avatar>
+								<Text size="sm" inline>
+									{post.meta.author.name}
+								</Text>
+						</Group>
+					</Stack>
+					<Stack ta="end" gap={0}>
+						<Text c="dimmed">Tarih:</Text>
+						<Text>
+							{new Date(post.meta.date).toLocaleDateString()}
+						</Text>
+					</Stack>
 				</Group>
 
 				<MDXRemote {...post.source} components={components} />

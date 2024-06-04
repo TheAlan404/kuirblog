@@ -20,8 +20,6 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 export default function Home({ posts }: { posts: PostMeta[] }) {
-	console.log(posts);
-
 	return (
 		<Stack>
 			<NextSeo title="Anasayfa" description=".kuir blogunun ana sayfası" />
