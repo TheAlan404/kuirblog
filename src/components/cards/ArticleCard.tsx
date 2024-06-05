@@ -46,7 +46,7 @@ export default function ArticleCard({
 			)}
 
 			<Stack justify="space-between" h="100%" pt="md" gap="sm">
-				<Stack>
+				<Stack gap={0}>
 					<Text fw="bolder">
 						{title}
 					</Text>
@@ -58,16 +58,11 @@ export default function ArticleCard({
 
 				<Group justify="space-between">
 					<Group>
-						<Avatar size="sm" radius="xl">
-							<Image
-								component={NextImage}
-								alt={`${author.name} photo`}
-								src={author.image}
-								layout="fill"
-								objectFit="cover"
-								sizes="10vw"
-							/>
-						</Avatar>
+						<Avatar
+							src={author.image}
+							size="sm"
+							radius="xl"
+						/>
 						<Text size="sm" inline>
 							{author.name}
 						</Text>

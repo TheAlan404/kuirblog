@@ -27,9 +27,9 @@ export default function Home({ posts }: { posts: PostMeta[] }) {
 
 			<Stack align="center">
 				<Image
-					src="/images/example.jpg"
+					className="unsetflex"
+					src="/images/rkuirbanner.png"
 					radius="md"
-					style={{ flex: "unset" }}
 					h="40vh"
 				/>
 

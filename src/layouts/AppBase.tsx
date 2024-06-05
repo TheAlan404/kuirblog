@@ -44,6 +44,7 @@ export default function AppBase({ children }: { children: ReactNode }) {
 							leftSection={(
 								<Avatar
 									size="sm"
+									pos="relative"
 									src="/images/mascot.png"
 								/>
 							)}

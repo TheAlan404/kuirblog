@@ -80,7 +80,7 @@ export default function PostPage({ post }: { post: MDXPost }) {
 			<Stack>
 				{post.meta.image && (
 					<Image
-						style={{ flex: "unset" }}
+						className="unsetflex"
 						h="40vh"
 						w="100%"
 						fit="cover"
@@ -108,19 +108,15 @@ export default function PostPage({ post }: { post: MDXPost }) {
 					<Stack gap={0}>
 						<Text c="dimmed">Yazar:</Text>
 						<Group>
-							<Avatar size="sm" radius="xl">
-								<Image
-									component={NextImage}
-									alt={`${post.meta.author.name} photo`}
-									src={post.meta.author.image}
-									layout="fill"
-									objectFit="cover"
-									sizes="10vw"
-								/>
-							</Avatar>
-								<Text size="sm" inline>
-									{post.meta.author.name}
-								</Text>
+							<Avatar
+								size="sm"
+								radius="xl"
+								src={post.meta.author.image}
+								alt={post.meta.author.name}
+							/>
+							<Text size="sm" inline>
+								{post.meta.author.name}
+							</Text>
 						</Group>
 					</Stack>
 					<Stack ta="end" gap={0}>

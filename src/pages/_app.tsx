@@ -1,6 +1,7 @@
 import { DefaultSeo, NextSeo } from "next-seo";
 import { AppProps } from "next/app";
-
+import { Lexend } from 'next/font/google'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import {
 	ColorSchemeScript,
 	colorsTuple,
@@ -22,8 +23,10 @@ import { RouterTransition } from "src/components/index";
 import settings from "src/config/settings";
 import AppBase from "../layouts/AppBase";
 
+const lexend = Lexend({});
+
 const theme = createTheme({
-	fontFamily: "Lexend-VariableFont",
+	fontFamily: lexend.style.fontFamily,
 	primaryColor: "pink",
 	components: {
 		Tooltip: {
@@ -49,7 +52,9 @@ export default function App({ Component, pageProps }: AppProps) {
 					locale: 'tr_TR',
 					siteName: '.kuir Blog',
 				}}
+				canonical="kuir.deniz.blue"
 			/>
+			<GoogleAnalytics gaId="G-TSWBEZ863G" />
 			<MantineProvider theme={theme} defaultColorScheme="dark">
 				<Notifications />
 				<RouterTransition />
