@@ -5,13 +5,13 @@ const routes = {
 		name: "Anasayfa",
 		href: "/",
 	},
-	blog: {
-		name: "Blog",
-		href: "/blog",
+	allPages: {
+		name: "Hepsi",
+		href: "/all",
 	},
-	blogPost: {
-		name: "Post",
-		href: "/posts/[slug]",
+	wikiPage: {
+		name: "Wiki Page",
+		href: "/w/[...slug]",
 	},
 	contact: {
 		name: "İletişim",

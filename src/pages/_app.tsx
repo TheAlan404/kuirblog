@@ -1,10 +1,9 @@
+import React from "react";
 import { DefaultSeo, NextSeo } from "next-seo";
 import { AppProps } from "next/app";
 import { Lexend } from 'next/font/google'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import {
-	ColorSchemeScript,
-	colorsTuple,
 	createTheme,
 	MantineProvider,
 	Space,
@@ -23,7 +22,7 @@ import { RouterTransition } from "src/components/index";
 import settings from "src/config/settings";
 import AppBase from "../layouts/AppBase";
 
-const lexend = Lexend({});
+const lexend = Lexend({ subsets: ["latin"] });
 
 const theme = createTheme({
 	fontFamily: lexend.style.fontFamily,

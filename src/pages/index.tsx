@@ -2,28 +2,32 @@ import React from "react";
 import { NextSeo } from "next-seo";
 import { Button, Divider, Image, SimpleGrid, Space, Stack, Text, Title } from "@mantine/core";
 import { GetStaticProps } from "next";
-import { getAllPosts } from "@/helpers/blog";
-import { PostMeta } from "@/helpers/types";
+import { getAllWikiPages } from "@/helpers/db";
 import { ArticleCard } from "../components";
 import { IconArrowNarrowRight } from "@tabler/icons-react";
 import Link from "next/link";
 import routes from "@/config/routes";
+import { WikiPageMetadata } from "@/helpers/wiki";
 
-export const getStaticProps: GetStaticProps = async () => {
-	const posts = getAllPosts().map((post) => post.meta);
+type HomeProps = { wikiPages: WikiPageMetadata[] };
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+	const wikiPages = getAllWikiPages()
+		.map((post) => post.meta)
+		.slice(0, 3);
 
 	return {
 		props: {
-			posts,
+			wikiPages,
 		},
 	};
 };
 
-export default function Home({ posts }: { posts: PostMeta[] }) {
+export default function Home({ wikiPages }: HomeProps) {
 	return (
 		<Stack>
 			<NextSeo title="Anasayfa" description=".kuir blogunun ana sayfası" />
-			<Title order={2}>.kuir Blog'a Hoş Geldin!</Title>
+			<Title order={2}>Wikiye Hoş Geldin!</Title>
 
 			<Stack align="center">
 				<Image
@@ -45,9 +49,9 @@ export default function Home({ posts }: { posts: PostMeta[] }) {
 				<Divider mt="xl" pt="xl" w="80%" label="Postlarımız" />
 
 				<SimpleGrid cols={{ base: 1, md: 3 }}>
-					{(posts || []).slice(0, 3).map((post) => (
+					{(wikiPages || []).slice(0, 3).map((post) => (
 						<ArticleCard
-							key={post.slug}
+							key={post.path.join("-")}
 							{...post}
 						/>
 					))}
@@ -59,7 +63,7 @@ export default function Home({ posts }: { posts: PostMeta[] }) {
 					color="blue"
 					rightSection={<IconArrowNarrowRight />}
 					component={Link}
-					href={routes.blog.href}
+					href={routes.allPages.href}
 				>
 					Bütün Postlara Bak
 				</Button>

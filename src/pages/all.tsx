@@ -1,32 +1,34 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { ActionIcon, Grid, SimpleGrid, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { ArticleCard } from "src/components/index";
-import { getAllPosts } from "src/helpers/blog";
-import { PostMeta } from "@/helpers/types";
+import { getAllWikiPages } from "@/helpers/db";
+import { WikiPageMetadata } from "@/helpers/wiki";
 
-function Blog({ posts }: { posts: PostMeta[] }) {
+type AllProps = { wikiPages: WikiPageMetadata[] };
+
+function All({ wikiPages }: AllProps) {
 	const [value, setValue] = useState("");
 	const [debounced] = useDebouncedValue(value, 200, { leading: true });
 
 	/* Filtering the posts based on the search input. */
 	const filtered = useMemo(() => {
 		if (debounced)
-			return posts.filter(
-				(post) =>
-					post.title
+			return wikiPages.filter(
+				(p) =>
+					p.title
 						.toLocaleLowerCase()
 						.includes(debounced.toLocaleLowerCase()) ||
-					post.category
+					p.category
 						.toLocaleLowerCase()
 						.includes(debounced.toLocaleLowerCase())
 			);
 
-		return posts;
-	}, [debounced, posts]);
+		return wikiPages;
+	}, [debounced, wikiPages]);
 
 	const clearFilter = () => {
 		setValue("");
@@ -38,7 +40,7 @@ function Blog({ posts }: { posts: PostMeta[] }) {
 			<Stack>
 				<Stack ta="center" align="center">
 					<Title>
-						.kuir Blog
+						Wiki
 					</Title>
 
 					<Text>
@@ -64,10 +66,10 @@ function Blog({ posts }: { posts: PostMeta[] }) {
 				/>
 
 				<SimpleGrid cols={{ sm: 3, base: 1 }}>
-					{filtered.map((post) => (
+					{filtered.map((page) => (
 						<ArticleCard
-							key={post.slug}
-							{...post}
+							key={page.path.join("-")}
+							{...page}
 						/>
 					))}
 				</SimpleGrid>
@@ -84,14 +86,12 @@ function Blog({ posts }: { posts: PostMeta[] }) {
 	);
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-	const posts = getAllPosts().map((post) => post.meta);
+export const getStaticProps: GetStaticProps<AllProps> = async () => {
+	const wikiPages = getAllWikiPages().map((post) => post.meta);
 
 	return {
-		props: {
-			posts,
-		},
+		props: { wikiPages },
 	};
 };
 
-export default Blog;
+export default All;

@@ -1,5 +1,4 @@
 import React from "react";
-import NextImage from "next/image";
 import Link from "next/link";
 import {
 	Avatar,
@@ -10,19 +9,19 @@ import {
 	Image,
 	Stack,
 } from "@mantine/core";
-import { PostMeta } from "@/helpers/types";
+import { WikiPageMetadata } from "@/helpers/wiki";
 
 export default function ArticleCard({
+	path,
 	image,
 	title,
 	author,
 	category,
 	date,
 	excerpt,
-	slug,
 	tags,
-}: PostMeta) {
-	const link = `/posts/${slug}`;
+}: WikiPageMetadata) {
+	const link = `/w/${path.join("/")}`;
 
 	return (
 		<Card

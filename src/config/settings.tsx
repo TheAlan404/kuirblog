@@ -14,25 +14,14 @@ const settings: Settings = {
 			icon: <IconHome />,
 		},
 		{
-			link: Routes.blog.href,
-			label: Routes.blog.name,
-			activeLinks: [Routes.blog.href, Routes.blogPost.href],
+			link: Routes.allPages.href,
+			label: Routes.allPages.name,
+			activeLinks: [Routes.allPages.href, Routes.wikiPage.href],
 			icon: <IconNews />,
 		},
 	],
 	socialLinks: [
-		{
-			icon: <IconBrandReddit />,
-			label: "r/kuir",
-			link: "https://www.reddit.com/r/kuir/",
-			color: "gray",
-		},
-		{
-			icon: <IconBrandDiscord />,
-			label: "Discord",
-			link: "https://discord.gg/kuir/",
-			color: "gray",
-		},
+		
 	],
 };
 

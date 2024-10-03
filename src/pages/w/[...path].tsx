@@ -1,11 +1,8 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import type { GetStaticPaths, GetStaticProps } from "next";
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import { serialize } from "next-mdx-remote/serialize";
+import { MDXRemote } from "next-mdx-remote";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
-import NextImage from "next/image";
 import {
 	ActionIcon,
 	Anchor,
@@ -22,17 +19,10 @@ import {
 	Text,
 } from "@mantine/core";
 import { IconArrowNarrowLeft } from "@tabler/icons-react";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeSlug from "rehype-slug";
-import { GiscusComments, YouTubeEmbed } from "src/components/index";
-import { getPostFromSlug, getSlugs } from "src/helpers/blog";
+import { YouTubeEmbed } from "src/components/index";
 import Routes from "src/config/routes";
-import { PostMeta } from "@/helpers/types";
-
-interface MDXPost {
-	source: MDXRemoteSerializeResult<Record<string, unknown>>;
-	meta: PostMeta;
-}
+import { renderWikiPage, WikiPageProps } from "@/helpers/wiki";
+import { getAllWikiPages, getWikiPagePaths } from "@/helpers/db";
 
 const components = {
 	img: (props: ImageProps) => (
@@ -53,81 +43,81 @@ const components = {
 	a: (props: any) => <Anchor {...props} />,
 };
 
-export default function PostPage({ post }: { post: MDXPost }) {
+export default function WikiPage({ meta, source }: WikiPageProps) {
 	return (
 		<>
 			<NextSeo
-				title={post.meta.title}
-				description={post.meta.excerpt}
+				title={meta.title}
+				description={meta.excerpt}
 				openGraph={{
-					title: post.meta.title,
-					description: post.meta.excerpt,
+					title: meta.title,
+					description: meta.excerpt,
 					type: "article",
 					article: {
-						tags: post.meta.tags,
-						authors: [post.meta.author.name],
-						publishedTime: post.meta.date,
+						tags: meta.tags,
+						authors: [meta.author.name],
+						publishedTime: meta.date,
 					},
 					locale: "tr_TR",
-					images: post.meta.image ? [
+					images: meta.image ? [
 						{
-							url: post.meta.image,
+							url: meta.image,
 						}
 					] : undefined,
 				}}
 			/>
 
 			<Stack>
-				{post.meta.image && (
+				{/* meta.image && (
 					<Image
 						className="unsetflex"
 						h="40vh"
 						w="100%"
 						fit="cover"
 						radius="md"
-						src={post.meta.image}
-						alt={`${post.meta.title} image`}
+						src={meta.image}
+						alt={`${meta.title} image`}
 					/>
-				)}
+				) */}
 
 				<Group align="center" wrap="nowrap">
 					<Tooltip label="Blog'a geri dön">
 						<ActionIcon
 							variant="light"
 							component={Link}
-							href={Routes.blog.href}
+							href={Routes.allPages.href}
 							visibleFrom="sm"
 						>
 							<IconArrowNarrowLeft />
 						</ActionIcon>
 					</Tooltip>
-					<Title order={2}>{post.meta.title}</Title>
+					<Title order={2}>{meta.title}</Title>
 				</Group>
 
-				<Group justify="space-between" pb="xl">
+				{/* <Group justify="space-between" pb="xl">
 					<Stack gap={0}>
 						<Text c="dimmed">Yazar:</Text>
 						<Group>
 							<Avatar
 								size="sm"
 								radius="xl"
-								src={post.meta.author.image}
-								alt={post.meta.author.name}
+								src={meta.author.image}
+								alt={meta.author.name}
 							/>
 							<Text size="sm" inline>
-								{post.meta.author.name}
+								{meta.author.name}
 							</Text>
 						</Group>
 					</Stack>
 					<Stack ta="end" gap={0}>
 						<Text c="dimmed">Tarih:</Text>
 						<Text>
-							{new Date(post.meta.date).toLocaleDateString()}
+							{new Date(meta.date).toLocaleDateString()}
 						</Text>
 					</Stack>
-				</Group>
+				</Group> */}
 
-				<MDXRemote {...post.source} components={components} />
+				<MDXRemote {...source} components={components} />
 
 				{/* <GiscusComments /> */}
 			</Stack>
@@ -135,23 +125,15 @@ export default function PostPage({ post }: { post: MDXPost }) {
 	);
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const { slug } = params as { slug: string };
-	const { content, meta } = getPostFromSlug(slug);
-	const mdxSource = await serialize(content, {
-		mdxOptions: {
-			rehypePlugins: [
-				rehypeSlug,
-				//[rehypeAutolinkHeadings, { behavior: "wrap" }],
-			],
-		},
-	});
+export const getStaticProps: GetStaticProps<WikiPageProps> = async ({ params }) => {
+	const { path } = params as { path: string[] };
 
-	return { props: { post: { source: mdxSource, meta } } };
+	const props = await renderWikiPage(path);
+	return { props };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const paths = getSlugs().map((slug) => ({ params: { slug } }));
+	const paths = getWikiPagePaths().map((path) => ({ params: { path } }));
 
 	return {
 		paths,
